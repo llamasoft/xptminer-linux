@@ -12,7 +12,7 @@ all: $(app)
 		$(CC) $(CFLAGS) -c -o $@ $< -O3
 
 xpt: $(obj)
-	    $(CXX) $(LDFLAGS) -o $@ $(obj) -lpthread -O3 -march=native -mtune=native -lrt
+	    $(CXX) $(LDFLAGS) -o $@ $(obj) -lpthread -O3 -fomit-frame-pointer -march=native -mtune=native -lrt
 
 clean:
 	    $(RM) *.o $(app)

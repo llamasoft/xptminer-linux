@@ -3,7 +3,7 @@
 #define MAX_TRANSACTIONS	(4096)
 
 // miner version string (for pool statistic)
-char* minerVersionString = "xptMiner 1.0 linux";
+char* minerVersionString = "xptMiner 1.1g linux";
 
 minerSettings_t minerSettings = {0};
 
@@ -622,13 +622,13 @@ int main(int argc, char** argv)
 	commandlineInput.numThreads = min(max(commandlineInput.numThreads, 1), 4);
 	xptMiner_parseCommandline(argc, argv);
 	minerSettings.protoshareMemoryMode = commandlineInput.ptsMemoryMode;
-	printf("\xC9\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBB\n");
-	printf("\xBA  xptMiner (v1.0) Linux                           \xBA\n");
-	printf("\xBA  author: jh00                                    \xBA\n");
-	printf("\xBA  modify by USTCer :)                             \xBA\n");
-	printf("\xBA  Donation: MDYNeE68KJyUUGKrbPyVS5z3LUd1NGs9S2    \xBA\n");
-	printf("\xBA  http://ypool.net                                \xBA\n");
-	printf("\xC8\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xBC\n");
+	printf("O--------------------------------------------------O\n");
+	printf("|  xptMiner (v1.1g) Linux                          |\n");
+	printf("|  author: jh00                                    |\n");
+	printf("|  modified by GigaWatt                            |\n");
+	printf("|  Donation: MEu8jBkkVvTLwvpiPjWC9YntyDH2u5KwVy    |\n");
+	printf("|  http://ypool.net                                |\n");
+	printf("O--------------------------------------------------O\n");
 	printf("Launching miner...\n");
 	uint32 mbTable[] = {512,256,128,32,8};
 	//printf("Using %d megabytes of memory per thread\n", mbTable[min(commandlineInput.ptsMemoryMode,(sizeof(mbTable)/sizeof(mbTable[0])))]);
