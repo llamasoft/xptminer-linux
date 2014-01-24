@@ -241,7 +241,7 @@ bool xptClient_processPacket_ping(xptClient_t* xptClient)
 	xptClient->pingSum += timeDif;
 	xptClient->pingCount++;
 	double averagePing = (double)xptClient->pingSum / (double)xptClient->pingCount / 10.0;
-	printf("Ping %d.%dms (Average %.1lf)\n", (sint32)(timeDif/10), (sint32)(timeDif%10), averagePing);
+	// printf("Ping %d.%dms (Average %.1lf)\n", (sint32)(timeDif/10), (sint32)(timeDif%10), averagePing);
 
 
 	return true;
