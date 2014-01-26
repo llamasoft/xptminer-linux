@@ -391,7 +391,7 @@ void xptMiner_xptQueryWorkLoop()
 					}
 					printf("collisions/min: %.4lf Shares total: %d\n", speedRate, totalShareCount);
 				}
-				else if( workDataSource.algorithm == ALGORITHM_SCRYPT || workDataSource.algorithm == ALGORITHM_METISCOIN )
+				else if( workDataSource.algorithm == ALGORITHM_SCRYPT )
 				{
 					// speed is represented as khash/s
 					if( passedSeconds > 5 )
@@ -400,7 +400,15 @@ void xptMiner_xptQueryWorkLoop()
 					}
 					printf("kHash/s: %.2lf Shares total: %d\n", speedRate, totalShareCount);
 				}
-
+				else if( workDataSource.algorithm == ALGORITHM_METISCOIN )
+				{
+					// speed is represented as khash/s (in steps of 0x8000)
+					if( passedSeconds > 5 )
+					{
+						speedRate = (double)totalCollisionCount * 32768.0 / (double)passedSeconds / 1000.0;
+					}
+					printf("kHash/s: %.2lf Shares total: %d\n", speedRate, totalShareCount);
+				}
 			}
 			timerPrintDetails = currentTick + 8000;
 		}
