@@ -64,6 +64,6 @@ void metiscoin_process(minerMetiscoinBlock_t* block)
             }
         }
         
-        totalCollisionCount += 0x8000;
+        totalCollisionCount += 1;
     }
 }
