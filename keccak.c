@@ -83,6 +83,10 @@ extern "C"{
  * -- copy the state, except on x86
  * -- unroll 8 rounds on "big" machine, 2 rounds on "small" machines
  */
+ 
+// Hard coded for testing
+#define SPH_KECCAK_UNROLL   0
+#define SPH_KECCAK_NOCOPY   0
 
 #if SPH_SMALL_FOOTPRINT && !defined SPH_SMALL_FOOTPRINT_KECCAK
 #define SPH_SMALL_FOOTPRINT_KECCAK   1
@@ -1565,8 +1569,8 @@ keccak_init(sph_keccak_context *kc, unsigned out_size)
 	kc->lim = 200 - (out_size >> 2);
 }
 
-static void
-keccak_core(sph_keccak_context *kc, const void *data, size_t len, size_t lim)
+static void keccak_core(sph_keccak_context *kc, const void *data, size_t len, size_t lim) __attribute__((hot));
+static void keccak_core(sph_keccak_context *kc, const void *data, size_t len, size_t lim)
 {
 	unsigned char *buf;
 	size_t ptr;
@@ -1605,8 +1609,8 @@ keccak_core(sph_keccak_context *kc, const void *data, size_t len, size_t lim)
 #if SPH_KECCAK_64
 
 #define DEFCLOSE(d, lim) \
-	static void keccak_close ## d( \
-		sph_keccak_context *kc, unsigned ub, unsigned n, void *dst) \
+    static void keccak_close ## d (sph_keccak_context *kc, unsigned ub, unsigned n, void *dst) __attribute__((hot)); \
+	static void keccak_close ## d (sph_keccak_context *kc, unsigned ub, unsigned n, void *dst) \
 	{ \
 		unsigned eb; \
 		union { \
@@ -1649,8 +1653,8 @@ keccak_core(sph_keccak_context *kc, const void *data, size_t len, size_t lim)
 #else
 
 #define DEFCLOSE(d, lim) \
-	static void keccak_close ## d( \
-		sph_keccak_context *kc, unsigned ub, unsigned n, void *dst) \
+    static void keccak_close ## d(sph_keccak_context *kc, unsigned ub, unsigned n, void *dst) __attribute__((hot)); \
+	static void keccak_close ## d(sph_keccak_context *kc, unsigned ub, unsigned n, void *dst) \
 	{ \
 		unsigned eb; \
 		union { \

@@ -35,6 +35,12 @@
 
 #include "sph_metis.h"
 
+
+// Hard coded for testing
+#define SPH_KECCAK_NOCOPY   0
+
+
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -892,8 +898,8 @@ metis3_core(sph_metis_context *sc, const void *data, size_t len)
 	WRITE_STATE_BIG(sc);
 }
 
-static void
-metis4_core(sph_metis_context *sc, const void *data, size_t len)
+static void metis4_core(sph_metis_context *sc, const void *data, size_t len) __attribute__((hot));
+static void metis4_core(sph_metis_context *sc, const void *data, size_t len)
 {
 	DECL_STATE_BIG
 	CORE_ENTRY
@@ -1079,8 +1085,8 @@ metis3_close(sph_metis_context *sc, unsigned ub, unsigned n, void *dst)
 	sph_metis384_init(sc);
 }
 
-static void
-metis4_close(sph_metis_context *sc, unsigned ub, unsigned n, void *dst)
+static void metis4_close(sph_metis_context *sc, unsigned ub, unsigned n, void *dst) __attribute__((hot));
+static void metis4_close(sph_metis_context *sc, unsigned ub, unsigned n, void *dst)
 {
 	int i;
 
@@ -1137,7 +1143,7 @@ metis4_close(sph_metis_context *sc, unsigned ub, unsigned n, void *dst)
 	sph_enc32be(out + 52, S[28]);
 	sph_enc32be(out + 56, S[29]);
 	sph_enc32be(out + 60, S[30]);
-	sph_metis512_init(sc);
+	// sph_metis512_init(sc);
 }
 
 void

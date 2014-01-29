@@ -7,12 +7,12 @@ CC=gcc
 all: $(app)
 
 .cpp.o: 
-	    $(CXX) $(CFLAGS) -c -o $@ $< -O3
+	    $(CXX) $(CFLAGS) -c -o $@ $< -O3 -flto
 .c.o:
-		$(CC) $(CFLAGS) -c -o $@ $< -O3
+		$(CC) $(CFLAGS) -c -o $@ $< -O3 -flto
 
 xpt: $(obj)
-	    $(CXX) $(LDFLAGS) -o $@ $(obj) -lpthread -O3 -fomit-frame-pointer -march=native -mtune=native -lrt
+	    $(CXX) $(LDFLAGS) -o $@ $(obj) -lpthread -O3 -fomit-frame-pointer -flto -march=native -mtune=native -lrt
 
 clean:
 	    $(RM) *.o $(app)

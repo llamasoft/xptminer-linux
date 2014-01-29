@@ -1561,8 +1561,8 @@ shavite_big_init(sph_shavite_big_context *sc, const sph_u32 *iv)
 	sc->count3 = 0;
 }
 
-static void
-shavite_big_core(sph_shavite_big_context *sc, const void *data, size_t len)
+static void shavite_big_core(sph_shavite_big_context *sc, const void *data, size_t len) __attribute__((hot));
+static void shavite_big_core(sph_shavite_big_context *sc, const void *data, size_t len)
 {
 	unsigned char *buf;
 	size_t ptr;
@@ -1597,9 +1597,8 @@ shavite_big_core(sph_shavite_big_context *sc, const void *data, size_t len)
 	sc->ptr = ptr;
 }
 
-static void
-shavite_big_close(sph_shavite_big_context *sc,
-	unsigned ub, unsigned n, void *dst, size_t out_size_w32)
+static void shavite_big_close(sph_shavite_big_context *sc, unsigned ub, unsigned n, void *dst, size_t out_size_w32) __attribute__((hot));
+static void shavite_big_close(sph_shavite_big_context *sc, unsigned ub, unsigned n, void *dst, size_t out_size_w32)
 {
 	unsigned char *buf;
 	size_t ptr, u;
@@ -1748,7 +1747,7 @@ void
 sph_shavite512_close(void *cc, void *dst)
 {
 	shavite_big_close(cc, 0, 0, dst, 16);
-	shavite_big_init(cc, IV512);
+	// shavite_big_init(cc, IV512);
 }
 
 /* see sph_shavite.h */
