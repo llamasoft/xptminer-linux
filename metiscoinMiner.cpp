@@ -12,20 +12,16 @@ void metiscoin_process(minerMetiscoinBlock_t* block)
     sph_keccak512_context ctx_keccak_init;
     sph_keccak512_init(&ctx_keccak_init);
     sph_keccak512(&ctx_keccak_init, &block->version, 80 - 4);
+
+	sph_keccak512_context ctx_keccak;
     
     // shavite512
-    sph_shavite512_context ctx_shavite_init;
-    sph_shavite512_init(&ctx_shavite_init);
+    sph_shavite512_context ctx_shavite;
+    sph_shavite512_init(&ctx_shavite);
     
     // metis512
-    sph_metis512_context ctx_metis_init;
-    sph_metis512_init(&ctx_metis_init);
-    
-    
-    // "Working" sets
-    sph_keccak512_context   ctx_keccak[HASHES_PER_PASS];
-    sph_shavite512_context  ctx_shavite[HASHES_PER_PASS];
-    sph_metis512_context    ctx_metis[HASHES_PER_PASS];
+    sph_metis512_context ctx_metis;
+    sph_metis512_init(&ctx_metis);
     
     uint32 pass = 0;
     uint32 cur_nonce = 0;
@@ -38,22 +34,23 @@ void metiscoin_process(minerMetiscoinBlock_t* block)
         
         for(uint32 f = 0; f < 0x8000; f += HASHES_PER_PASS)
         {
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { memcpy(&ctx_keccak[pass],  &ctx_keccak_init,  sizeof(sph_keccak512_context) ); }
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { memcpy(&ctx_shavite[pass], &ctx_shavite_init, sizeof(sph_shavite512_context)); }
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { memcpy(&ctx_metis[pass],   &ctx_metis_init,   sizeof(sph_metis512_context)  ); }
-            
             // keccak512
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { sph_keccak512(&ctx_keccak[pass], &cur_nonce, 4); ++cur_nonce; }
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { sph_keccak512_close(&ctx_keccak[pass], hash_temp[pass]);      }
-            
+            for (pass = 0; pass < HASHES_PER_PASS; ++pass) {
+				memcpy(&ctx_keccak,  &ctx_keccak_init,  sizeof(sph_keccak512_context) );
+				sph_keccak512(&ctx_keccak, &cur_nonce, 4); ++cur_nonce;
+				sph_keccak512_close(&ctx_keccak, hash_temp[pass]);
+			}
+
             // shavite512
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { sph_shavite512(&ctx_shavite[pass], hash_temp[pass], 64);   }
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { sph_shavite512_close(&ctx_shavite[pass], hash_temp[pass]); }
-            
+            for (pass = 0; pass < HASHES_PER_PASS; ++pass) {
+				sph_shavite512(&ctx_shavite, hash_temp[pass], 64);
+				sph_shavite512_close(&ctx_shavite, hash_temp[pass]);
+			}
+
             // metis512
-            for (pass = 0; pass < HASHES_PER_PASS; ++pass) { sph_metis512(&ctx_metis[pass], hash_temp[pass], 64); }
             for (pass = 0; pass < HASHES_PER_PASS; ++pass) { 
-                sph_metis512_close(&ctx_metis[pass], hash_temp[pass]);
+				sph_metis512(&ctx_metis, hash_temp[pass], 64);
+                sph_metis512_close(&ctx_metis, hash_temp[pass]);
                 
                 if( *(uint32*)((uint8*)hash_temp[pass]+28) <= target )
                 {
