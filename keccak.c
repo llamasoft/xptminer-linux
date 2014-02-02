@@ -92,7 +92,6 @@ extern "C"{
  * By default, we select the 64-bit implementation if a 64-bit type
  * is available, unless a 32-bit x86 is detected.
  */
-#define SPH_KECCAK_64   1 // HARD CODED
 #if !defined SPH_KECCAK_64 && SPH_64 \
 	&& !(defined __i386__ || SPH_I386_GCC || SPH_I386_MSVC)
 #define SPH_KECCAK_64   1
